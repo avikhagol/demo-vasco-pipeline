@@ -35,7 +35,7 @@ body {
     .player-container {
         position: relative;
         width: 100%;
-        padding-top: 76.25%; /* 16:9 Aspect Ratio */
+        padding-top: 86.25%; /* 16:9 Aspect Ratio */
         overflow: hidden;
         border-radius: 8px;
         background: #000;
