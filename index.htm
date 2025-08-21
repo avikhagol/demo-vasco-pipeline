@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VASCO Pipeline Playlist</title>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<h1>VASCO Pipeline Playlist</h1>
+
+<div class="container">
+    <div class="player-area" id="player">
+        <h3 class="player-title">VASCO Terminal Demo</h3>
+        <div class="player-container">
+            <div class="loading">Loading terminal demo...</div>
+            <div class="asciinema-container" id="asciinema-container"></div>
+        </div>
+        <p class="player-description">Shows terminal output demo of VASCO pipeline. (3 min)</p>
+    </div>
+
+    <div class="playlist">
+        <div class="playlist-item active" data-type="asciinema" data-src="P76gs0ZQlwKJd7UHubdvlzPuy" data-title="VASCO Terminal Demo" data-desc="Shows terminal output demo of VASCO pipeline." data-length="3 min">
+            <h3>VASCO Terminal Demo</h3>
+            <p>3 min • Terminal output demo</p>
+        </div>
+        <div class="playlist-item" data-type="iframe" data-src="https://drive.google.com/file/d/1j-jqqs98Zni-oE6Z6wvB4rcyr-2N4OH7/preview" data-title="VASCO Video Demo" data-desc="Video demonstration of VASCO phaseshift module." data-length="4 min">
+            <h3>VASCO Video Demo</h3>
+            <p>4 min • Video demo</p>
+        </div>
+        <div class="playlist-item" data-type="iframe" data-src="https://drive.google.com/file/d/1JmwWdjcfeMi5u1buAjPmc_RWU3mN1bzh/preview" data-title="VASCO Poster" 
+        data-desc="VASCO - VLBI and SMILE sources-based CASA Optimizations" data-length="5 min">
+            <h3>VASCO Poster</h3>
+            <p>5 min • Poster pdf</p>
+        </div>
+    </div>
+</div>
+
+<script>
+$(document).ready(function() {
+    // Load the initial Asciinema player
+    loadAsciinema('P76gs0ZQlwKJd7UHubdvlzPuy');
+    
+    $('.playlist-item').click(function() {
+        $('.playlist-item').removeClass('active');
+        $(this).addClass('active');
+
+        const type = $(this).data('type');
+        const src = $(this).data('src');
+        const title = $(this).data('title');
+        const desc = $(this).data('desc');
+        const length = $(this).data('length');
+        
+        const $player = $('#player');
+        const $playerContainer = $player.find('.player-container');
+        const $title = $player.find('.player-title');
+        const $description = $player.find('.player-description');
+        
+        // Update title and description
+        $title.text(title);
+        $description.text(desc + " (" + length + ")");
+        
+        $playerContainer.fadeOut(300, function() {
+            $playerContainer.empty();
+            
+            // Show loading indicator
+            $playerContainer.append('<div class="loading">Loading ' + title + '...</div>');
+            $playerContainer.fadeIn(300);
+            
+            // Load content after a brief delay to show loading message
+            setTimeout(function() {
+                $playerContainer.empty();
+                
+                if (type === 'iframe') {
+                    $playerContainer.append('<iframe class="media-embed" src="' + src + '" allow="autoplay; fullscreen" frameborder="0"></iframe>');
+                } else if (type === 'asciinema') {
+                    $playerContainer.append('<div class="asciinema-container" id="asciinema-container"></div>');
+                    loadAsciinema(src);
+                }
+                
+                $playerContainer.fadeIn(300);
+            }, 500);
+        });
+    });
+    
+    function loadAsciinema(castId) {
+    const container = document.getElementById('asciinema-container');
+    if (container) {
+        container.innerHTML = '';
+
+        const iframe = document.createElement('iframe');
+        iframe.src = 'https://asciinema.org/a/' + castId + '/iframe?autoplay=0&size=medium&speed=1';
+        iframe.className = 'media-embed';
+        iframe.allowFullscreen = true;
+
+        container.appendChild(iframe);
+    }
+}
+
+
+ 
+});
+</script>
+
+</body>
+</html>
